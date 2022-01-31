@@ -1,0 +1,60 @@
+body {
+    background-color: black;
+}
+
+button {
+    border-color: black;
+    border-width: 0;
+    border-radius: 50px;
+    font-size: 40px;
+    margin: 8 8;
+}
+
+.button-container {
+    display: grid;
+    grid-template-columns: 100px 100px 100px 100px;
+    grid-template-rows:  100px 100px 100px 100px 100px;
+}
+
+.number-container {
+    display: grid;
+    grid-template-columns: 100px 100px 100px 100px;
+    grid-template-rows:  100px;
+}
+
+.number-button {
+    background-color: rgb(43, 43, 43);;
+    color: white;
+}
+
+.number-button:active {
+    background-color: gray;
+}
+
+.operator-button {
+    background-color: rgb(244, 139, 47);;
+    color: white;
+}
+
+.operator-button:active {
+    background-color:burlywood;
+}
+
+.extra-button {
+    background-color: rgb(150, 150, 150);;
+    color: black;
+}
+.extra-button:active {
+    background-color: white;
+}
+
+.operand-input {
+    text-align: right;
+    color: white;
+    font-size: 80px;
+    grid-column: span 4;
+}
+
+.double-button {
+    grid-column: span 2;
+}

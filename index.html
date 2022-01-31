@@ -1,0 +1,144 @@
+<html lang="en" dir="ltr">
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div class="number-container" id="number-list">
+            <label class="operand-input" id="firstNumber">0</label>
+            <label class="operand-input" id="secondNumber" hidden></label>
+        </div>
+       
+        <div class="button-container" id="button-list">
+            <button class="extra-button" onclick="eraseAll()">AC</button>
+            <button class="extra-button" onclick="deleteDigit()">DEL</button>
+            <button class="extra-button">%</button>
+            <button class="operator-button" value="/">&#xF7;</button>
+            
+            <button class="number-button">7</button>
+            <button class="number-button">8</button>
+            <button class="number-button">9</button>
+            <button class="operator-button" value="*">&#215;</button>
+            
+            <button class="number-button">4</button>
+            <button class="number-button">5</button>
+            <button class="number-button">6</button>
+            <button class="operator-button" value="-">&#8722;</button>
+            
+            <button class="number-button">1</button>
+            <button class="number-button">2</button>
+            <button class="number-button">3</button>
+            <button class="operator-button" value="+">&#43;</button>
+        
+            <button class="number-button double-button">0</button>
+            <button class="number-button">.</button>
+            <button class="operator-button" onclick="calculateResult()">=</button>
+        </div>
+    </body>
+    <script>
+        document.getElementById("button-list").addEventListener("click", handleOperationButton);
+
+        class Calculator {
+            constructor(firstNumber, secondNumber, currentOperation) {
+                this.firstNumber = firstNumber;
+                this.secondNumber = secondNumber;
+                this.currentOperation = currentOperation;
+            }
+
+            setFirstNumber(first) {
+                this.firstNumber = first;
+            }
+
+            setSecondNumber(second) {
+                this.secondNumber = second;
+            }
+
+            setCurrentOperation(op) {
+                this.currentOperation = op;
+            }
+
+            resetValues() {
+                this.firstNumber = null;
+                this.secondNumber = null;
+                this.currentOperation = null;
+            }
+        }
+
+        const calculator = new Calculator('', '', '');
+
+        function handleOperationButton(event) {
+            console.log(`current op: ${calculator.currentOperation == ''}`);
+            if (event.target.className.includes("number-button")) {
+                if (calculator.currentOperation == "") {
+                    console.log('first number');
+                    const value = event.target.innerHTML;
+                    const currentValue = document.getElementById("firstNumber").innerHTML;
+                    // console.log(`current value: ${currentValue}`, currentValue != 0)
+                    if (currentValue != 0) {
+                        document.getElementById("firstNumber").innerHTML += value;
+                        console.log(`appended value: ${document.getElementById("firstNumber").innerHTML}`)
+                    } else {
+                        document.getElementById("firstNumber").innerHTML = value;
+                        console.log(`new value: ${document.getElementById("firstNumber").innerHTML}`)
+                    }
+                    calculator.firstNumber = document.getElementById("firstNumber").innerHTML;
+                } else {
+                    document.getElementById("firstNumber").setAttribute('hidden', true);
+                    document.getElementById("secondNumber").removeAttribute('hidden');
+                    console.log('second number');
+                    const value = event.target.innerHTML;
+                    const currentValue = document.getElementById("secondNumber").innerHTML;
+                    console.log(currentValue, currentValue != 0)
+                    if (currentValue !== 0) {
+                        document.getElementById("secondNumber").innerHTML += value;
+                        
+                    } else {
+                        document.getElementById("secondNumber").innerHTML = value;
+
+                    }
+                    calculator.secondNumber = document.getElementById("secondNumber").innerHTML;
+                }
+            } else if (event.target.className.includes("operator-button")) {
+                const operator = event.target.value;
+                console.log('operator: ' + operator);
+                calculator.currentOperation = operator;
+                // TODO: Hide first label before typing second number
+            } else {
+                alert('Not implemented yet...');
+            }
+        }
+
+
+        function calculateResult() {
+            var result;
+            switch (calculator.currentOperation) {
+                case '*':
+                    result = Number(calculator.firstNumber)*Number(calculator.secondNumber);
+                    break;
+                case '+':
+                    console.log('sum detected...');
+                    result = Number(calculator.firstNumber)+Number(calculator.secondNumber);
+                    break;
+                case '-':
+                    result = Number(calculator.firstNumber)-Number(calculator.secondNumber);
+                    break;
+                case '/':
+                    result = Number(calculator.firstNumber)/Number(calculator.secondNumber);
+                    break;
+                default:
+                    alert('No operation provided...');
+            }
+            console.log("result: " + result);
+            document.getElementById('secondNumber').innerHTML = result;
+            calculator.resetValues();
+            // const result = Number(calculator.firstNumber)
+        }
+
+        function eraseAll() {
+            const firstNumberInput = document.getElementById('firstNumber');
+            const secondNumberInput = document.getElementById('secondNumber');
+            firstNumberInput.innerHTML = "0";
+            secondNumberInput.innerHTML = "0";
+            secondNumberInput.setAttribute("hidden", true);
+        }
+    </script>
+</html>
